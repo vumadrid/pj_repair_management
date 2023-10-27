@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_repair_management_kanban" model="ir.ui.view">
+        <field name="name">pj.repair.management.kanban</field>
+        <field name="model">pj.repair.management</field>
+        <field name="arch" type="xml">
+            <kanban default_order="id asc">
+                <field name="partner_id"/>
+                <field name="reference"/>
+                <field name="partner_code"/>
+                <field name="partner_name"/>
+                <field name="machine_name"/>
+                <field name="machine_serial"/>
+                <field name="machine_info"/>
+                <field name="receive_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        ID: <field name="reference"/>
+                                    </li>
+                                    <li>
+                                        Code: <field name="partner_code"/>
+                                    </li>
+                                    <li>
+                                        Name: <field name="partner_name"/>
+                                    </li>
+                                    <li>
+                                        Machine_name: <field name="machine_name"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_repair_management_tree" model="ir.ui.view">
+        <field name="name">pj.repair.management.tree</field>
+        <field name="model">pj.repair.management</field>
+        <field name="arch" type="xml">
+            <tree>
+<!--                <field name="partner_id"/>-->
+                <field name="reference"/>
+                <field name="partner_code"/>
+                <field name="partner_name"/>
+                <field name="machine_name"/>
+                <field name="machine_serial"/>
+                <field name="machine_info"/>
+                <field name="receive_date"/>
+                <field name="return_date"/>
+                <field name="start_date_warranty"/>
+                <field name="end_date_warranty"/>
+<!--                <field name="used_id"/>-->
+                <field name="note"/>
+                <field name="state"/>
+                <field name="amount_total"/>
+                <field name="invoice_count"/>
+<!--                <field name="invoice_ids"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_repair_management_form" model="ir.ui.view">
+        <field name="name">pj.repair.management.form</field>
+        <field name="model">pj.repair.management</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="RequestApproval" states="received" context="{'validate_analytic': True}" type="object" class="oe_highlight" name="request_approval"/>
+                    <button string="RequestApproval" states="draft" context="{'validate_analytic': True}" type="object" class="oe_highlight" name="request_approval"/>
+                    <button string="Cancel" type="object" context="{'validate_analytic': True}" states="draft,received,invoicing,cancel" class="oe_highlight" name="action_set_done"/>
+                    <button string="set to draft" states="cancel" context="{'validate_analytic': True}"  type="object" class="oe_highlight" name="action_set_draft" />
+<!--                    <button name="export_to_excel" string="Xuất Excel" type="object" states="approved" context="{'validate_analytic': True}" class="oe_highlight"/>-->
+                    <field name="state" widget="statusbar" statusbar_visible="received,invoicing,cancel" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_code"/>
+                            <field name="partner_name"/>
+                            <field name="machine_name"/>
+                            <field name="machine_serial"/>
+                        </group>
+                        <group>
+                            <field name="machine_info"/>
+                            <field name="receive_date"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="Order">
+                            <fields>
+                                <tree string="Repair Management Service" editable="bottom">
+                                    <field name="repair_management_ids"/>
+                                </tree>
+                            </fields>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_repair_management" model="ir.actions.act_window">
+        <field name="name">Repair Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pj.repair.management</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first repair management!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_sale_root"
+              name="Repairs"
+              sequence="10"/>
+
+    <menuitem id="menu_repair_root"
+              name="Repair Management"
+              parent="menu_sale_root"
+              sequence="10"/>
+
+    <menuitem id="menu_repair_management"
+              name="Order"
+              parent="menu_repair_root"
+              action="action_repair_management"
+              sequence="10"/>
+
+</odoo>

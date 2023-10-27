@@ -1,0 +1,47 @@
+<odoo>
+    <record id="action_product_repair_management" model="ir.actions.act_window">
+        <field name="name">Product Repair Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+<!--        <field name="domain">[('type', '=', 'service')]</field>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first product!
+            </p>
+        </field>
+    </record>
+<!--    <record id="view_product_repair_management_tree" model="ir.ui.view">-->
+<!--        <field name="name">product.product.tree</field>-->
+<!--        <field name="model">product.product</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+<!--                <field name="product_ids"/>-->
+<!--                <field name="product_name"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--    <record id="view_product_repair_management_form" model="ir.ui.view">-->
+<!--        <field name="name">product.product.form</field>-->
+<!--        <field name="model">product.product</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="product_ids"/>-->
+<!--                            <field name="product_name"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <menuitem id="menu_product_repair"
+              name="Product"
+              parent="menu_service_line_root"
+              action="action_product_repair_management"
+              sequence="30"/>
+</odoo>
