@@ -6,8 +6,8 @@
         <field name="model">pj.repair.management</field>
         <field name="arch" type="xml">
             <kanban default_order="id asc">
-                <field name="partner_id"/>
-                <field name="reference"/>
+<!--                <field name="partner_id"/>-->
+                <field name="reference" />
                 <field name="partner_code"/>
                 <field name="partner_name"/>
                 <field name="machine_name"/>
@@ -20,7 +20,7 @@
                             <div class="oe_kanban_details">
                                 <ul>
                                     <li>
-                                        ID: <field name="reference"/>
+                                        ID: <field name="reference" />
                                     </li>
                                     <li>
                                         Code: <field name="partner_code"/>
@@ -87,22 +87,22 @@
                     </div>
                     <group>
                         <group>
-                            <field name="partner_code"/>
-                            <field name="partner_name"/>
-                            <field name="machine_name"/>
-                            <field name="machine_serial"/>
+                            <field name="partner_code" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="partner_name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="machine_name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="machine_serial" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                         <group>
-                            <field name="machine_info"/>
-                            <field name="receive_date"/>
-                            <field name="note"/>
+                            <field name="machine_info" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="receive_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="note" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                     </group>
                     <notebook>
                         <page name="Order">
                             <fields>
                                 <tree string="Repair Management Service" editable="bottom">
-                                    <field name="repair_management_ids"/>
+                                    <field name="repair_management_ids" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 </tree>
                             </fields>
                         </page>

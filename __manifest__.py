@@ -22,7 +22,8 @@
     'depends': ['base', 'mail', 'sale'],
 
     # always loaded
-    'data': ['views/repair_management_view.xml',
+    'data': ['data/data.xml',
+             'views/repair_management_view.xml',
              'views/repair_service_line_view.xml',
              'views/product_repair_management_view.xml',
              ],

@@ -1,4 +1,4 @@
-from odoo import fields, models, api, _
+from odoo import fields, models, api, exceptions, _
 from odoo.exceptions import UserError
 
 
@@ -8,8 +8,8 @@ class RepairManagement(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     partner_id = fields.Many2one('res.partner', string="Partner")
-    reference = fields.Char(string='Order Reference', required=False, copy=False, readonly="1", index=True,
-                            default=lambda self: _('PR'))
+    reference = fields.Char(string="Order Reference", Tracking=True, required=True, copy=False, readonly="1", index=True,
+                            default=lambda self: _('SC'))
     partner_code = fields.Char(string="Partner Code")
     partner_name = fields.Char(string="Partner Name")
     machine_name = fields.Char(string="Machine Name")
@@ -28,7 +28,7 @@ class RepairManagement(models.Model):
         ('invoicing', 'Invoicing'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-       ], string="Status", default='draft', readonly=True, copy=False, Tracking=True, track_visibility='onchange')
+       ], string="Status", default='draft', readonly=False, copy=False, Tracking=True, track_visibility='onchange')
     amount_total = fields.Float(string='Total Amount', compute='_compute_amount_total')
     invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
     invoice_ids = fields.One2many('account.move', 'pj_repair_id', string='Invoices')
@@ -70,3 +70,10 @@ class RepairManagement(models.Model):
             if order.state == 'invoicing':
               order.write({'state': 'cancel'})
         return True
+
+    @api.constrains('repair_management_ids', 'state')
+    def _check_repair_line_editability(self):
+        for request in self:
+            if request.state != 'draft':
+                if request.repair_management_ids:
+                    raise exceptions.ValidationError("Cannot add or remove repair lines when the state is not 'draft'.")
